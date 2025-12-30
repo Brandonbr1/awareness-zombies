@@ -1,0 +1,21 @@
+{
+	"modListVersion": 2,
+	"modList": [{
+		"modid": "${modId}",
+		"name": "${modName}",
+		"description": "Makes zombies and mobs more aware of there surroundings.",
+		"version": "${modVersion}",
+		"mcversion": "${minecraftVersion}",
+		"url": "TODO",
+		"updateUrl": "",
+		"authorList": ["Jerios"],
+		"credits": "Corosus, for the original mod which inspired this.",
+		"logoFile": "",
+		"screenshots": [],
+		"parent": "",
+		"requiredMods": [],
+		"dependencies": [],
+		"dependants": [],
+		"useDependencyInformation": false
+	}]
+}
