@@ -7,8 +7,8 @@ import jerios.awareZombies.entity.EntityBloodRender;
 
 public class ClientProxy extends CommonProxy {
 
-    public void preInit(FMLPreInitializationEvent event) { 
-    	RenderingRegistry.registerEntityRenderingHandler(EntityBlood.class, new EntityBloodRender());
-    	
+    public void preInit(FMLPreInitializationEvent event) {
+        RenderingRegistry.registerEntityRenderingHandler(EntityBlood.class, new EntityBloodRender());
+
     }
 }

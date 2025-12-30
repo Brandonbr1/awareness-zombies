@@ -1,5 +1,11 @@
 package jerios.awareZombies;
 
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,11 +19,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import jerios.awareZombies.ai.SmartZombieAI;
 import jerios.awareZombies.entity.EntityBlood;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 
 @Mod(
     modid = AwareZombies.MODID,
@@ -31,40 +32,39 @@ public class AwareZombies {
 
     @SidedProxy(clientSide = "jerios.awareZombies.ClientProxy", serverSide = "jerios.awareZombies.CommonProxy")
     public static CommonProxy proxy;
-    
-
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         proxy.preInit(event);
         MinecraftForge.EVENT_BUS.register(this);
-        EntityRegistry.registerModEntity(EntityBlood.class, "Blood", 2, this, Config.trackRange, Config.updateFreq, false);
+        EntityRegistry
+            .registerModEntity(EntityBlood.class, "Blood", 2, this, Config.trackRange, Config.updateFreq, false);
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
     }
-    
+
     @SubscribeEvent
-    public void onZombieSpawn(LivingSpawnEvent e) { 	
-    	if (e.entityLiving instanceof EntityZombie) {
-    		ZombieAwarenessData.INSTANCE.zombieCount++;
-    	}
-    	if (e.entityLiving instanceof EntityMob) {
-    		this.applySmartAi((EntityMob)e.entityLiving);
-    	}
+    public void onZombieSpawn(LivingSpawnEvent e) {
+        if (e.entityLiving instanceof EntityZombie) {
+            ZombieAwarenessData.INSTANCE.zombieCount++;
+        }
+        if (e.entityLiving instanceof EntityMob) {
+            this.applySmartAi((EntityMob) e.entityLiving);
+        }
     }
-    
+
     @SubscribeEvent
     public void onZombieDeath(LivingDeathEvent e) {
-    	if (e.entityLiving instanceof EntityZombie) {
-    		ZombieAwarenessData.INSTANCE.zombieCount--;
-    	}
+        if (e.entityLiving instanceof EntityZombie) {
+            ZombieAwarenessData.INSTANCE.zombieCount--;
+        }
     }
-    
+
     private void applySmartAi(EntityMob e) {
-    	e.targetTasks.addTask(Config.aiPir, new SmartZombieAI(e));
+        e.targetTasks.addTask(Config.aiPir, new SmartZombieAI(e));
     }
 
     @Mod.EventHandler
